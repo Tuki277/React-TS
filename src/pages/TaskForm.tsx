@@ -1,5 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import Api from '../services/Api';
+import { useNavigate, useParams } from 'react-router-dom'
 
 import './index.css'
 
@@ -10,10 +12,19 @@ interface ITask {
 
 const TaskForm = () => {
 
+    const history = useNavigate()
+    const { id } = useParams()
+
     const [model, setModel] = useState<ITask>({
         name: '',
         description: ''
     })
+
+    useEffect(() => {
+        if (id !== undefined) {
+            findTask(id);
+        }
+    }, [])
 
     const updatedModel = (event: ChangeEvent<HTMLInputElement>) => {
         setModel({
@@ -22,18 +33,35 @@ const TaskForm = () => {
         })
     }
 
-    const onSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+    const onSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (id !== undefined) {
+            const res = await Api.put(`/api/todo/${id}`, model)
+        } else {
+            const res = await Api.post('/api/todo', model)
+        }
+        history(-1)
+    }
 
-        console.log(model);
+    const taskList = () => {
+        history(-1)
+    }
 
+    const findTask = async (id: string) => {
+        const res = await Api.get(`/api/todo/${id}`)
+        setModel({
+            name: res.data.data.name,
+            description: res.data.data.description
+        })
     }
 
     return (
         <div className="container mt-5">
             <div className='task-header'>
                 <h1>New Task</h1>
-                <Button variant='dark' size='sm'>Create Task</Button>
+                <div>
+                    <Button className='h-100' variant='danger' size='sm' onClick={ taskList }>Task List</Button>
+                </div>
             </div>
             <div className="container mt-5">
                 <Form onSubmit={onSubmit}>
@@ -43,6 +71,7 @@ const TaskForm = () => {
                             type='text' 
                             placeholder="Enter title"
                             name='name'
+                            value={model.name}
                             onChange={(event: ChangeEvent<HTMLInputElement>) => updatedModel(event)}
                         />
                     </Form.Group>
@@ -53,6 +82,7 @@ const TaskForm = () => {
                             as="textarea" 
                             rows={3}
                             name='description'
+                            value={model.description}
                             onChange={(event: ChangeEvent<HTMLInputElement>) => updatedModel(event)}
                         />
                     </Form.Group>

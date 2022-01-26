@@ -36,6 +36,28 @@ const Task = () => {
         history('/task/add')
     }
 
+    const editTask = (id: string) => {
+        history(`/task/edit/${id}`)
+    }
+
+    const detailTask = (id: string) => {
+        history(`/task/${id}`)
+    }
+
+    const successTask = async (id: string) => {
+        if (id !== undefined) {
+            await Api.patch(`/api/todo/finish/${id}`);
+            loadTask();
+        }
+    }
+
+    const deleteTask = async (id: string) => {
+        if (id !== undefined) {
+            await Api.delete(`/api/todo/${id}`);
+            loadTask();
+        }
+    }
+
     return (
         <div className="container mt-5">
             <div className='task-header'>
@@ -68,10 +90,10 @@ const Task = () => {
                                     </Badge>
                                 </td>
                                 <td>
-                                    <Button size='sm'>EDIT</Button>{' '}
-                                    <Button size='sm' variant="success">SUCCESS</Button>{' '}
-                                    <Button size='sm' variant="info">DETAIL</Button>{' '}
-                                    <Button size='sm' variant="danger">DELETE</Button>{' '}
+                                    <Button size='sm' disabled={ x.status } onClick={() => editTask( x._id)}>EDIT</Button>{' '}
+                                    <Button size='sm' disabled={ x.status } variant="success" onClick={() => successTask( x._id )}>SUCCESS</Button>{' '}
+                                    <Button size='sm' disabled={ x.status } variant="info" onClick={() => detailTask( x._id )}>DETAIL</Button>{' '}
+                                    <Button size='sm' variant="danger" onClick={() => deleteTask( x._id )}>DELETE</Button>{' '}
                                 </td>
                             </tr>
                         ))

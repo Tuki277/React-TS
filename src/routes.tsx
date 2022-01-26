@@ -3,6 +3,7 @@ import { Routes, Route} from 'react-router-dom'
 import Home from './pages/Home'
 import Task from './pages/Task'
 import TaskForm from './pages/TaskForm'
+import Detail from './pages/Detail'
 
 const routes = () => {
   return (
@@ -10,6 +11,8 @@ const routes = () => {
           <Route path='/' element= { <Home /> }/>
           <Route path='/task' element={ <Task /> }/>
           <Route path='/task/add' element={ <TaskForm />} />
+          <Route path='/task/edit/:id' element={ <TaskForm />} />
+          <Route path='/task/:id' element={ <Detail />} />
       </Routes>
   );
 };
