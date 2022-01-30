@@ -3,22 +3,14 @@ import { Badge, Button, Card } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import Api from '../services/Api';
 import moment from 'moment'
-
-interface ITask {
-    _id: string;
-    name: string;
-    description: string;
-    status: boolean;
-    createdAt: Date,
-    updatedAt: Date
-}
+import { DetailResponse, ITask } from '../services/Interface';
 
 const Detail = () => {
 
     const history = useNavigate()
     const { id } = useParams()
 
-    const [task, setTask] = useState<ITask>()
+    const [task, setTask] = useState<DetailResponse<ITask>>()
 
     useEffect(() => {
         if (id !== undefined) {
@@ -31,9 +23,8 @@ const Detail = () => {
     }
 
     const findTask = async (id: string) => {
-        const res = await Api.get(`/api/todo/${id}`)
-        console.log({ res });
-        setTask(res.data.data)
+        const res = await Api.get<DetailResponse<ITask>>(`/api/todo/${id}`)
+        setTask(res.data)
     }
 
     const formatDate = (date: Date | undefined) => moment(date).format("DD/MM/YYYY")
@@ -46,16 +37,16 @@ const Detail = () => {
             </div>
             <Card className='mt-5'>
                 <Card.Body>
-                    <Card.Title>{ task?.name }</Card.Title>
+                    <Card.Title>{ task?.object.name }</Card.Title>
                     <Card.Text>
-                        { task?.description }
+                        { task?.object.description }
                     </Card.Text>
-                    <Badge bg={ task?.status ? 'success' : 'warning'}>
-                        { task?.status ? "SUCCESS" : "PENDING" }
+                    <Badge bg={ task?.object.status ? 'success' : 'warning'}>
+                        { task?.object.status ? "SUCCESS" : "PENDING" }
                     </Badge>
                     <br />
                     <Badge bg="info">
-                        { formatDate( task?.createdAt) }
+                        { formatDate( task?.object.createdAt ) }
                     </Badge>
                 </Card.Body>
             </Card>

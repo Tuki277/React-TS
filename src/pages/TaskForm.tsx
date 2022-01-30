@@ -27,6 +27,7 @@ const TaskForm = () => {
     }, [])
 
     const updatedModel = (event: ChangeEvent<HTMLInputElement>) => {
+        console.log(event.target);
         setModel({
             ...model,
             [event.target.name]: event.target.value
@@ -50,8 +51,8 @@ const TaskForm = () => {
     const findTask = async (id: string) => {
         const res = await Api.get(`/api/todo/${id}`)
         setModel({
-            name: res.data.data.name,
-            description: res.data.data.description
+            name: res.data.object.name,
+            description: res.data.object.description
         })
     }
 
