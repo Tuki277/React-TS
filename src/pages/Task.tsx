@@ -39,7 +39,7 @@ const Task = () => {
     const successTask = async (id: string) => {
         if (id !== undefined) {
             await Api.patch(`/api/todo/finish/${id}`);
-            // loadTask();
+            loadTask();
         }
     }
 

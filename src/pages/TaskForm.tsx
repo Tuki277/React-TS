@@ -4,20 +4,16 @@ import Api from '../services/Api';
 import { useNavigate, useParams } from 'react-router-dom'
 
 import './index.css'
-
-interface ITask {
-    name: string;
-    description: string;
-}
+import { ITaskPost } from '../services/Interface';
 
 const TaskForm = () => {
 
     const history = useNavigate()
     const { id } = useParams()
 
-    const [model, setModel] = useState<ITask>({
+    const [model, setModel] = useState<ITaskPost>({
         name: '',
-        description: ''
+        description: '',
     })
 
     useEffect(() => {
@@ -27,7 +23,6 @@ const TaskForm = () => {
     }, [])
 
     const updatedModel = (event: ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target);
         setModel({
             ...model,
             [event.target.name]: event.target.value
