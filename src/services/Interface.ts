@@ -1,3 +1,17 @@
+export interface timeDefault {
+    createdAt: Date,
+    updatedAt: Date
+}
+
+export interface IRole  extends timeDefault {
+    name: string,
+    roleNumber: number,
+}
+
+export interface IPosition extends timeDefault {
+    name: string
+}
+
 export interface ListResponse<T> {
     object: T[];
     Error: boolean,
@@ -10,13 +24,11 @@ export interface DetailResponse<T> {
     Message: string
 }
 
-export interface ITask {
+export interface ITask extends timeDefault {
     _id: string;
     name: string;
     description: string;
     status: boolean;
-    createdAt: Date,
-    updatedAt: Date
 }
 
 export interface ITaskPost {
@@ -38,4 +50,25 @@ export interface ILoginPost {
 
 export interface IProps<T> {
     notiProps?: T
+}
+
+export interface ILogout {
+    Error: boolean,
+    Message: string;
+}
+
+export interface IUserprofile<T, U> extends timeDefault {
+    _id: string,
+    email: string,
+    username: string,
+    password: string,
+    role: T[],
+    position: U[],
+}
+
+export interface ISession extends timeDefault {
+    _id: string,
+    user: string,
+    valid: boolean,
+    userAgent: string
 }

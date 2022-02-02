@@ -26,10 +26,14 @@ const Login = () => {
     const onSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
         const res = await Api.post<DetailResponse<ILogin>>('/api/login', account)
-        if (res.data.Error == true) {
+        if (res.data.Error === true) {
             setNoti(res.data)
-        } else if (res.data.Error == false) {
+        } else if (res.data.Error === false) {
+            localStorage.setItem("LoginStatus", res.data.Message)
+            localStorage.setItem("SessionId", res.data.object.sessionId)
             setNoti(res.data)
+            history('/task')
+            window.location.reload();
         }
     }
 
@@ -43,7 +47,7 @@ const Login = () => {
             <div className='container'>
                 <h1 className='text-center mt-5'>Login</h1>
                 <Form onSubmit={onSubmit}>
-                    <Form.Group className="mb-3 mt-5" controlId="formBasicEmail">
+                    <Form.Group className="mb-3 mt-5">
                         <Form.Control
                             type="email"
                             placeholder="Enter email"
@@ -53,13 +57,14 @@ const Login = () => {
                         />
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Group className="mb-3">
                         <Form.Control
                             type="password"
                             placeholder="Password"
                             name="password"
                             value={account.password}
                             onChange={(event: ChangeEvent<HTMLInputElement>) => changeState(event)}
+                            autoComplete="on"
                         />
                     </Form.Group>
                     <Button variant="primary" type="submit">

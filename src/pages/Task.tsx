@@ -15,7 +15,14 @@ const Task = () => {
 
     useEffect(() => {
         loadTask();
+        checkLogin();
     }, [])
+
+    const checkLogin = () => {
+        if (!localStorage.getItem("LoginStatus")) {
+          history('/login')
+        }
+      }
 
     const loadTask = async () => {
         const res = await Api.get<ListResponse<ITask>>('/api/todo');
