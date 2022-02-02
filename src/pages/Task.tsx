@@ -2,32 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { Badge, Table, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'
 import Api from '../services/Api'
+import { ListResponse, ITask } from '../services/Interface';
 
 import moment from 'moment';
 
 import './index.css'
 
-interface ITask {
-    _id: string;
-    name: string;
-    description: string;
-    status: boolean;
-    createdAt: Date,
-    updatedAt: Date
-}
-
 const Task = () => {
 
-    const [tasks, setTasks] = useState<ITask[]>([])
+    const [tasks, setTasks] = useState<ListResponse<ITask>>()
     const history = useNavigate()
 
     useEffect(() => {
         loadTask();
+        checkLogin();
     }, [])
 
+    const checkLogin = () => {
+        if (!localStorage.getItem("LoginStatus")) {
+          history('/login')
+        }
+      }
+
     const loadTask = async () => {
-        const res = await Api.get('/api/todo');
-        setTasks(res.data.data)
+        const res = await Api.get<ListResponse<ITask>>('/api/todo');
+        setTasks(res.data)
     }
 
     const formatDate = (date: Date) => moment(date).format("DD/MM/YYYY")
@@ -54,7 +53,7 @@ const Task = () => {
     const deleteTask = async (id: string) => {
         if (id !== undefined) {
             await Api.delete(`/api/todo/${id}`);
-            loadTask();
+            loadTask()
         }
     }
 
@@ -78,8 +77,7 @@ const Task = () => {
                 <tbody>
 
                     {
-
-                        tasks.map(x => (
+                        tasks?.object.map(x => (
                             <tr key={ x._id }>
                                 <td>{ x.name }</td>
                                 <td>{ x.description }</td>

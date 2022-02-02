@@ -1,18 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom'
-import Notification from './components/Notification'
 import './index.css'
 
 import Routes from './routes'
 import Header from './components/Header';
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Header />
-      <Routes />
-    </BrowserRouter>
-  );
+
+    const checkLoginRoute = () => {
+        if (localStorage.getItem("LoginStatus")) {
+            return (
+                <BrowserRouter>
+                    <Header />
+                    <Routes />
+                </BrowserRouter>
+            )
+        }
+        else {
+            return (
+                <BrowserRouter>
+                    <Routes />
+                </BrowserRouter>
+            )
+        }
+    }
+
+    return (
+        checkLoginRoute()
+    );
 }
 
 export default App;

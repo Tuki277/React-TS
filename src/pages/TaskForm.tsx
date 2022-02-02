@@ -4,20 +4,16 @@ import Api from '../services/Api';
 import { useNavigate, useParams } from 'react-router-dom'
 
 import './index.css'
-
-interface ITask {
-    name: string;
-    description: string;
-}
+import { ITaskPost } from '../services/Interface';
 
 const TaskForm = () => {
 
     const history = useNavigate()
     const { id } = useParams()
 
-    const [model, setModel] = useState<ITask>({
+    const [model, setModel] = useState<ITaskPost>({
         name: '',
-        description: ''
+        description: '',
     })
 
     useEffect(() => {
@@ -50,8 +46,8 @@ const TaskForm = () => {
     const findTask = async (id: string) => {
         const res = await Api.get(`/api/todo/${id}`)
         setModel({
-            name: res.data.data.name,
-            description: res.data.data.description
+            name: res.data.object.name,
+            description: res.data.object.description
         })
     }
 
