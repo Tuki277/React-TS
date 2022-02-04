@@ -26,7 +26,6 @@ const Header = () => {
     return (
         <Navbar bg="light" expand="lg">
             <Container fluid>
-                <Navbar.Brand href="#">Task</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                     <Nav
@@ -37,6 +36,7 @@ const Header = () => {
                         <Nav.Link as={ Link } to="/">Home</Nav.Link>
                         <Nav.Link as={ Link } to="/task">Task</Nav.Link>
                         <Nav.Link as={ Link } to="/session">Session</Nav.Link>
+                        <Nav.Link as={ Link } to="/redux">Redux Toolkit</Nav.Link>
                         <Button className='float-right' onClick={() => {logoutButton()}} variant="danger" style={{ position: "absolute", right: 10 }}>Logout</Button>
                     </Nav>
                 </Navbar.Collapse>

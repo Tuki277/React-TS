@@ -72,3 +72,9 @@ export interface ISession extends timeDefault {
     valid: boolean,
     userAgent: string
 }
+
+export interface ITaskRedux {
+    task : ListResponse<ITask> | undefined,
+    loading: boolean,
+    message: string
+}

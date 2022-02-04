@@ -7,6 +7,8 @@ import Detail from './pages/Detail'
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Session from './pages/Session';
+import TaskRedux from './pages/TaskRedux';
+import TaskFormRedux from './pages/TaskFormRedux';
 
 const routes = () => {
 
@@ -21,6 +23,8 @@ const routes = () => {
           <Route path='/task/:id' element={ <Detail />} />
           <Route path='/login' element={ <Login />} />
           <Route path='/session' element={ <Session />} />
+          <Route path='/redux' element={ <TaskRedux />} />
+          <Route path='/redux/add' element={ <TaskFormRedux />} />
           <Route path='*' element={ <NotFound /> } />
         </Routes>
       )
