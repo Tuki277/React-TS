@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Badge, Table, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'
-import Api from '../services/Api'
-import { getAllTodo } from './../redux/feature/todoSlice'
+import { deleteTaskRedux, getAllTodo, successTaskRedux } from './../redux/feature/todoSlice'
 import './index.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
@@ -11,7 +10,7 @@ import { formatDate } from './../utils/function'
 const TaskRedux = () => {
 
     const dispath = useDispatch();
-    const { task, loading } = useSelector((state: RootState) => state.todo)
+    const { task } = useSelector((state: RootState) => state.todo)
 
     const history = useNavigate()
 
@@ -31,22 +30,24 @@ const TaskRedux = () => {
     }
 
     const editTask = (id: string) => {
-        history(`/task/edit/${id}`)
+        history(`/redux/edit/${id}`)
     }
 
     const detailTask = (id: string) => {
-        history(`/task/${id}`)
+        history(`/redux/${id}`)
     }
 
     const successTask = async (id: string) => {
         if (id !== undefined) {
-            await Api.patch(`/api/todo/finish/${id}`);
+            dispath(successTaskRedux(id))
+            dispath(getAllTodo())
         }
     }
 
     const deleteTask = async (id: string) => {
         if (id !== undefined) {
-            await Api.delete(`/api/todo/${id}`);
+            await dispath(deleteTaskRedux(id))
+            await dispath(getAllTodo())
         }
     }
 

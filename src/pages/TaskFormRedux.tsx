@@ -4,9 +4,10 @@ import Api from '../services/Api';
 import { useNavigate, useParams } from 'react-router-dom'
 
 import './index.css'
-import { ITaskPost } from '../services/Interface';
-import { useDispatch } from 'react-redux';
-import { addTodo, getAllTodo } from '../redux/feature/todoSlice';
+import { ITaskPost, ITaskUpdateRedux } from '../services/Interface';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTodo, findTask, getAllTodo, updateTodo } from '../redux/feature/todoSlice';
+import { RootState } from '../redux/store';
 
 const TaskFormRedux = () => {
 
@@ -15,6 +16,8 @@ const TaskFormRedux = () => {
     const history = useNavigate()
     const { id } = useParams()
 
+    const { taskDetail } = useSelector((state: RootState) => state.todo)
+
     const [model, setModel] = useState<ITaskPost>({
         name: '',
         description: '',
@@ -22,9 +25,13 @@ const TaskFormRedux = () => {
 
     useEffect(() => {
         if (id !== undefined) {
-            findTask(id);
+            dispatch(findTask(id))
         }
     }, [])
+
+    useEffect(() => {
+        findTaskRedux()
+    }, [taskDetail])
 
     const updatedModel = (event: ChangeEvent<HTMLInputElement>) => {
         setModel({
@@ -36,10 +43,15 @@ const TaskFormRedux = () => {
     const onSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (id !== undefined) {
+            const modelUpdate: ITaskUpdateRedux<ITaskPost> = {
+                model,
+                id
+            }
+            await dispatch(updateTodo(modelUpdate))
+            await dispatch(getAllTodo())
+        } else {
             dispatch(addTodo(model))
             dispatch(getAllTodo())
-        } else {
-            const res = await Api.post('/api/todo', model)
         }
         history(-1)
     }
@@ -48,12 +60,13 @@ const TaskFormRedux = () => {
         history(-1)
     }
 
-    const findTask = async (id: string) => {
-        const res = await Api.get(`/api/todo/${id}`)
-        setModel({
-            name: res.data.object.name,
-            description: res.data.object.description
-        })
+    const findTaskRedux = async () => {
+        if (taskDetail) {
+            setModel({
+                name: taskDetail.object.name,
+                description: taskDetail.object.description
+            })
+        }
     }
 
     return (

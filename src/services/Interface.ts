@@ -74,7 +74,13 @@ export interface ISession extends timeDefault {
 }
 
 export interface ITaskRedux {
-    task : ListResponse<ITask> | undefined,
+    task: ListResponse<ITask> | undefined,
     loading: boolean,
-    message: string
+    message: string,
+    taskDetail: DetailResponse<ITask> | undefined
+}
+
+export interface ITaskUpdateRedux<T> {
+    model: T,
+    id: string
 }
