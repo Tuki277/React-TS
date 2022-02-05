@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Toast } from 'react-bootstrap';
-import { DetailResponse, ILogin, IProps } from '../services/Interface';
+import { DetailResponse, ILogin, IProps, ITask } from '../services/Interface';
 
 const Notification = ( props: IProps<DetailResponse<ILogin>>) => {
 
