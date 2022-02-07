@@ -3,6 +3,7 @@ import { Button, Card, Col, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'
 import Api from '../services/Api';
 import { IRole, IUserprofile, IPosition, ListResponse } from '../services/Interface';
+import { formatDate } from './../utils/function'
 
 const Home = () => {
 
@@ -53,7 +54,7 @@ const Home = () => {
 
                     <Row className='mb-5'>
                         <Col>Role: {user?.object[0].role[0].name}</Col>
-                        <Col>CreatedAt: {user?.object[0].createdAt}</Col>
+                        <Col>CreatedAt: { formatDate(user?.object[0].createdAt) }</Col>
                     </Row>
 
                     <Row>

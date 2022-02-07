@@ -10,6 +10,7 @@ import Session from './pages/Session';
 import TaskRedux from './pages/TaskRedux';
 import TaskFormRedux from './pages/TaskFormRedux';
 import DetailRedux from './pages/DetailRedux';
+import Images from './pages/Images';
 
 const routes = () => {
 
@@ -28,6 +29,7 @@ const routes = () => {
           <Route path='/redux/add' element={ <TaskFormRedux />} />
           <Route path='/redux/edit/:id' element={ <TaskFormRedux />} />
           <Route path='/redux/:id' element={ <DetailRedux />} />
+          <Route path='/images' element={ <Images />} />
           <Route path='*' element={ <NotFound /> } />
         </Routes>
       )

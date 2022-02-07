@@ -80,7 +80,23 @@ export interface ITaskRedux {
     taskDetail: DetailResponse<ITask> | undefined
 }
 
+export interface IImageRedux {
+    listImage: ListResponse<IImage> | null,
+    message: string,
+}
+
 export interface ITaskUpdateRedux<T> {
     model: T,
     id: string
+}
+
+export interface IImagesPost {
+    fileUpload: any,
+    title: string
+}
+
+export interface IImage extends timeDefault {
+    _id: string,
+    title: string,
+    urlImage: string
 }

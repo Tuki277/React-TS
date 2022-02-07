@@ -2,3 +2,8 @@
     position: absolute;
     right: 20px;
 }
+
+.custom-file-input {
+    z-index: 9;
+  }
+  

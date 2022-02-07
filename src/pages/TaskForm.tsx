@@ -63,8 +63,8 @@ const TaskForm = () => {
                 <Form onSubmit={onSubmit}>
                     <Form.Group className="mb-3">
                         <Form.Label>Title</Form.Label>
-                        <Form.Control 
-                            type='text' 
+                        <Form.Control
+                            type='text'
                             placeholder="Enter title"
                             name='name'
                             value={model.name}
@@ -74,7 +74,7 @@ const TaskForm = () => {
 
                     <Form.Group className="mb-3">
                         <Form.Label>Description</Form.Label>
-                        <Form.Control 
+                        <Form.Control
                             as="textarea" 
                             rows={3}
                             name='description'

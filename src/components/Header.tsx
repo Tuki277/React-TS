@@ -37,6 +37,7 @@ const Header = () => {
                         <Nav.Link as={ Link } to="/task">Task</Nav.Link>
                         <Nav.Link as={ Link } to="/session">Session</Nav.Link>
                         <Nav.Link as={ Link } to="/redux">Redux Toolkit</Nav.Link>
+                        <Nav.Link as={ Link } to="/images">Images</Nav.Link>
                         <Button className='float-right' onClick={() => {logoutButton()}} variant="danger" style={{ position: "absolute", right: 10 }}>Logout</Button>
                     </Nav>
                 </Navbar.Collapse>
